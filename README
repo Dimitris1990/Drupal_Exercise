@@ -1,0 +1,48 @@
+Install drupal project:
+cd /var/www/html/
+-composer create-project drupal-composer/drupal-project:8.x-dev drupal --stability dev --no-interaction
+
+Create Database:
+1)DROP DATABASE IF EXISTS 'firstexercise'
+2)CREATE DATABASE 'firstexercise'
+3)grant select, insert, update, delete, create, drop, index, alter, create temporary tables, lock tables on `firstexercise`.* to 'root'@'localhost' identified by 'root';
+
+Apache configuration:
+1)Navigate to:
+	cd /etc/apache2/sites-available/
+2)Create drupal2.conf file:
+
+3)Edit .conf file:
+	<VirtualHost *:80>
+ 		DocumentRoot /var/www/html/drupal2/web
+ 		ServerName drupal-dev.eu
+ 		ServerAlias drupal.dev.192.168.0.96.nip.io
+  		<Directory /var/www/html/drupal2/web/>
+   			Options Indexes FollowSymLinks
+    			AllowOverride All
+    			Require all granted
+  		</Directory>
+	</VirtualHost>
+
+4)Enable site:
+	-sudo a2ensite drupal2.conf
+
+5)Open and edit hosts file:
+	-cd /etc/
+	
+	-sudo nano hosts
+
+	Add:    127.0.0.1       drupal-dev.eu
+		127.0.0.1       drupal.dev.192.168.0.96.nop.io
+
+6)Reload apache:
+	-sudo systemctl reload apache2
+
+7)Open project and import 'config-drupal-dev-eu-2021-11-12-20-09.tar.gz' file at: 
+	/admin/config/development/configuration/full/import
+
+8)Enable custom modules by typing in a terminal in the project's root:
+	drush pm:enable forTerms
+	drush pm:enable forJSLib
+
+
